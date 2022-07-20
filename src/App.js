@@ -9,22 +9,26 @@ function App() {
   const [input, setInput] = useState("");
   const Operators = ["+", "-", "x", "÷", "."];
   const addInput = (val) => {
-    // Checks if there is not symbols in the empty screen or in the last digit
-    if (
-      (Operators.includes(val) && input === "") ||
-      (Operators.includes(val) && Operators.includes(input.slice(-1)))
-    ) {
-      return;
+    if (input === "Syntax Error!") {
+      return setInput("")
+    } else {
+      // Checks if there is not symbols in the empty screen or in the last digit
+      if (
+        (Operators.includes(val) && input === "") ||
+        (Operators.includes(val) && Operators.includes(input.slice(-1)))
+      ) {
+        return;
+      }
+      setInput(input + val);
     }
-    setInput(input + val);
   };
   const calcResult = () => {
-    const fixedInput = input.replace(/x/, "*").replace(/÷/, "/");
-    const lastChar = fixedInput.slice(-1)
+    const fixedInput = input.replace(/x/g, "*").replace(/÷/g, "/");
+    const lastChar = fixedInput.slice(-1);
     if (fixedInput && !isNaN(lastChar)) {
       setInput(evaluate(fixedInput).toString());
     } else {
-      return
+      return setInput("Syntax Error!");
     }
   };
   return (
